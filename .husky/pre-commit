@@ -16,4 +16,4 @@ echo "RUNNING TESTS"
 echo "----------------------------------------"
 
 # Uncomment this once test suite has been added to project
-# npm run test
+ npm run test
