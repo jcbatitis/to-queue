@@ -34,6 +34,10 @@
     "**/__tests__/**/*.{js,ts,tsx}": [
       "prettier --write",
       "eslint --fix"
+    ],
+    "./*.{js,ts,json,md}": [
+      "prettier --write",
+      "eslint --fix"
     ]
   },
   "devDependencies": {
