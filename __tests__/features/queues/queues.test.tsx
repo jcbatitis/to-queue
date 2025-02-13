@@ -34,6 +34,6 @@ describe('Queues Component', () => {
         <Queues />
       </Provider>
     );
-    expect(screen.getByText('This is the queue')).toBeInTheDocument();
+    expect(screen.getByText('This is the queues')).toBeInTheDocument();
   });
 });

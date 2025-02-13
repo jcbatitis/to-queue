@@ -15,9 +15,7 @@ const initialState: QueueState = {
 };
 
 export const fetchQueue = createAsyncThunk('queues/fetchQueue', async () => {
-  const data = await getMockedQueue();
-  console.log(data);
-  return data;
+  return await getMockedQueue();
 });
 
 const queuesSlice = createSlice({
