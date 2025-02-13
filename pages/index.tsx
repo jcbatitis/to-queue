@@ -1,6 +1,8 @@
 import Image from 'next/image';
 import { Geist, Geist_Mono } from 'next/font/google';
-import Queue from '@/components/queue';
+import { Provider } from 'react-redux';
+import store from '@/redux/store';
+import Queues from '@/features/queues/queues';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -26,7 +28,9 @@ export default function Home() {
           height={38}
           priority
         />
-        <Queue />
+        <Provider store={store}>
+          <Queues />
+        </Provider>
       </main>
     </div>
   );

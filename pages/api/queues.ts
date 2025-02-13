@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next';
 
-type Queue = {
+export type Queue = {
   id: number;
   name: string;
   description: string;
