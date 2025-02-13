@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 import { render, screen } from '@testing-library/react';
-import React from 'react';
+import React, { act } from 'react';
 import '@testing-library/jest-dom';
 import Queues from '@/features/queues/queues';
 import queuesReducer, { QueueState } from '@/features/queues/queues.slice';
@@ -28,12 +28,14 @@ const mockStore = configureStore({
 });
 
 describe('Queues Component', () => {
-  it('renders the queue view', () => {
-    render(
-      <Provider store={mockStore}>
-        <Queues />
-      </Provider>
-    );
+  it('renders the queue view', async () => {
+    await act(async () => {
+      render(
+        <Provider store={mockStore}>
+          <Queues />
+        </Provider>
+      );
+    });
     expect(screen.getByText('This is the queues')).toBeInTheDocument();
   });
 });
