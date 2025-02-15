@@ -1,6 +1,7 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { getMockedQueue } from '@/features/queues/queues.actions';
 import { Queue } from '@/features/queues/queues.types';
+import { RootState } from '@/redux/store';
 
 export interface QueueState {
   queue: Queue | null;
@@ -40,4 +41,5 @@ const queuesSlice = createSlice({
   },
 });
 
+export const currentQueue = (state: RootState) => state.queues.queue;
 export default queuesSlice.reducer;

@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Provider } from 'react-redux';
-import store from '@/redux/store';
 import Queues from '@/features/queues/queues';
+import { setupStore } from '@/redux/store';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -14,6 +14,7 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+const store = setupStore();
 export default function Home() {
   return (
     <div
