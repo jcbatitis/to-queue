@@ -1,33 +1,61 @@
 /**
  * @jest-environment jsdom
  */
-import { screen } from '@testing-library/react';
-import React, { act } from 'react';
+import { fireEvent, screen, waitFor } from '@testing-library/react';
+import React from 'react';
 import '@testing-library/jest-dom';
 import Queues from '@/features/queues/queues';
 import { renderWithProviders } from '@/utils/test-utils';
 import { setupStore } from '@/redux/store';
-import { fetchQueue } from '@/features/queues/queues.slice';
+import { getMockedQueue } from '@/features/queues/queues.actions';
 
-jest.useFakeTimers();
+jest.mock('../../../features/queues/queues.actions', () => ({
+  getMockedQueue: jest.fn(),
+}));
+
+// jest.mock('../../../features/queues/queues.slice', () => ({
+//   ...jest.requireActual('../../../features/queues/queues.slice'),
+//   fetchQueue: jest.fn(),
+// }));
 
 describe('Queues Component', () => {
-  it('renders loading skeleton when data is not yet loaded', async () => {
-    const store = setupStore();
-    renderWithProviders(<Queues />, { store });
-    const skeletonContainer = screen.getByTestId('queue-skeleton');
-    expect(skeletonContainer).toBeInTheDocument();
+  let mockStore: ReturnType<typeof createTestStore>;
+  const createTestStore = () => setupStore();
+  beforeEach(() => {
+    mockStore = createTestStore();
+    jest.clearAllMocks();
   });
+  it('should load queue data upon initialisation', async () => {
+    const mockData = { name: 'Test Queue', id: 1 };
+    (getMockedQueue as jest.Mock).mockResolvedValue(mockData);
+    const { getByTestId } = renderWithProviders(<Queues />, { store: mockStore });
+    await waitFor(() => {
+      const skeleton = getByTestId('queue-skeleton');
+      expect(skeleton).toBeInTheDocument();
+    });
+    const state = mockStore.getState().queues;
+    expect(state).toEqual({
+      queue: mockData,
+      loading: false,
+      error: null,
+    });
+    expect(getByTestId('queue')).toBeInTheDocument();
+    expect(screen.getByText('Test Queue')).toBeInTheDocument();
+  });
+  it('list should refresh upon clicking refresh', async () => {
+    const mockData = { name: 'Test Queue', id: 1 };
+    (getMockedQueue as jest.Mock).mockResolvedValue(mockData);
+    const { getByTestId } = renderWithProviders(<Queues />, { store: mockStore });
 
-  it('hides loading skeleton when data is available', async () => {
-    const mockStore = setupStore();
-    await act(async () => {
-      mockStore.dispatch(fetchQueue());
-      renderWithProviders(<Queues />, { store: mockStore });
-      jest.runAllTimers();
+    await waitFor(() => {
+      const button = getByTestId('refresh');
+      expect(button).toBeInTheDocument();
+      fireEvent.click(button);
     });
 
-    expect(screen.queryByTestId('queue-skeleton')).not.toBeInTheDocument();
-    expect(screen.getByText('Clean kitchen')).toBeInTheDocument();
+    const queue = getByTestId('queue');
+    expect(queue).toBeInTheDocument();
+    expect(getMockedQueue).toHaveBeenCalledTimes(1);
+    expect(screen.getByText('Test Queue')).toBeInTheDocument();
   });
 });

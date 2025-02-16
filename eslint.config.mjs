@@ -23,6 +23,17 @@ const eslintConfig = [
             'Use typed hooks `useAppDispatch` and `useAppSelector` instead.',
         },
       ],
+      'max-len': [
+        'error',
+        {
+          code: 120,
+          tabWidth: 2,
+          ignoreUrls: true,
+          ignoreComments: false,
+          ignoreStrings: true,
+          ignoreTemplateLiterals: true,
+        },
+      ],
     },
   },
 ];

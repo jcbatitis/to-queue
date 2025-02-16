@@ -17,7 +17,19 @@ export const Queues = () => {
     dispatch(fetchQueue());
   }, [dispatch]);
 
-  return <main>{loading ? <QueueSkeleton /> : <Queue />}</main>;
+  return (
+    <main className='flex w-[400px] flex-col gap-2 p-4'>
+      <button
+        data-testid='refresh'
+        className={`active:bg-blue-400} w-auto rounded-md border-red-50 p-2 text-white ${loading ? 'bg-gray-400' : 'bg-blue-500'}`}
+        onClick={() => dispatch(fetchQueue())}
+        disabled={loading}
+      >
+        Refresh
+      </button>
+      {loading ? <QueueSkeleton /> : <Queue />}
+    </main>
+  );
 };
 
 export default Queues;

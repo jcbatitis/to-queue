@@ -21,6 +21,7 @@ const config: Config = {
       statements: 60,
     },
   },
+  setupFilesAfterEnv: ['<rootDir>/setup.jest.ts'],
   // coveragePathIgnorePatterns: [
   //   "<rootDir>/placeholder/",
   //   "<rootDir>/node_modules/"

@@ -6,7 +6,7 @@ export function QueueSkeleton() {
   return (
     <div
       data-testid='queue-skeleton'
-      className={`${shimmer} relative flex h-[120px] w-[500px] flex-col gap-2 rounded-md bg-gray-500 p-2`}
+      className={`${shimmer} relative flex h-[120px] w-auto flex-col gap-2 rounded-md bg-gray-500 p-2`}
     >
       <div className='flex flex-row items-center gap-5'>
         <div className='block h-5 w-5 rounded-full bg-gray-200' />
